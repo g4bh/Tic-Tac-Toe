@@ -7,7 +7,8 @@
 
             Console.WriteLine("    _                                 _                            _   _             \r\n   (_)   ___     __ _    ___       __| |   __ _    __   __   ___  | | | |__     __ _ \r\n   | |  / _ \\   / _` |  / _ \\     / _` |  / _` |   \\ \\ / /  / _ \\ | | | '_ \\   / _` |\r\n   | | | (_) | | (_| | | (_) |   | (_| | | (_| |    \\ V /  |  __/ | | | | | | | (_| |\r\n  _/ |  \\___/   \\__, |  \\___/     \\__,_|  \\__,_|     \\_/    \\___| |_| |_| |_|  \\__,_|\r\n |__/           |___/                                                                ");
             Console.WriteLine("");
-            Console.WriteLine("Para jogar, digite qual posição do tabuleiro deseja jogar a peça.");
+            Console.WriteLine("Objetivo: Para jogar, digite qual posição do tabuleiro deseja jogar a peça.\n");
+            Console.WriteLine("Clique em ENTER para INICIAR!");
             Console.WriteLine("");
 
             string[,] matriz = new string[3,3];
@@ -19,18 +20,9 @@
             //Populando a tabela
             for (int i = 0; i < matriz.GetLength(0); i++) {
                 for (int j = 0; j < matriz.GetLength(1); j++) {
-                    matriz[i, j] = "[ " + posicao.ToString() + " ]";
+                    matriz[i, j] = posicao.ToString();
                     posicao++;
-                }
-            }
-
-            
-            //Mostrando a tabela
-            for (int i = 0;i < matriz.GetLength(0); i++)
-            {
-                for (int j = 0;j < matriz.GetLength(1);j++)
-                {
-                    Console.Write(matriz[i, j] + " ");
+                    Console.Write($" [ {matriz[i, j]} ]" );
                 }
                 Console.WriteLine();
             }
@@ -38,13 +30,42 @@
             Console.ReadLine();
 
 
-            //Substituindo os numeors por peças
+            //Substituindo os numeros por peças
             while (tentativas < 9) {
 
+                Console.WriteLine() ;
                 Console.Write("Digite a posição da casa que deseja jogar: ");
-                int jogada = int.Parse(Console.ReadLine());
+                
+                string jogada = Console.ReadLine();
+                Console.WriteLine(' ');
+
+                for (int i = 0;i < matriz.GetLength(0);i++)
+                {
+                    for(int j = 0;j < matriz.GetLength(1);j++)
+                    {
+                        if (matriz[i, j] == jogada) {
+                            matriz[i, j] = turno;
+                        }
+                    }
+                }
+
+                for (int i = 0; i<matriz.GetLength(0);i++)
+                {
+                    for (int j = 0; j < matriz.GetLength(1); j++) {
+                        Console.Write($" [ {matriz[i, j]} ]");
+                    }
+                    Console.WriteLine() ;
+                }
+
+                if (turno == "X") {
+                    turno = "O";
+                }
+                else { 
+                    turno = "X";
+                }
 
 
+                tentativas++;
 
             }
 
