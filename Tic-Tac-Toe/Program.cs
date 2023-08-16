@@ -1,4 +1,4 @@
-﻿namespace Tic_Tac_Toe
+namespace Tic_Tac_Toe
 {
     internal class Program
     {
@@ -17,12 +17,15 @@
             int tentativas = 0;
             string turno = "X";
 
+            List<string> casasJogadas = new List<string>();
+
             //Populando a tabela
             for (int i = 0; i < matriz.GetLength(0); i++) {
                 for (int j = 0; j < matriz.GetLength(1); j++) {
                     matriz[i, j] = posicao.ToString();
-                    posicao++;
+                    casasJogadas.Add(posicao.ToString());
                     Console.Write($" [ {matriz[i, j]} ]" );
+                    posicao++;
                 }
                 Console.WriteLine();
             }
@@ -34,20 +37,33 @@
             while (tentativas < 9) {
 
                 Console.WriteLine() ;
+                Console.WriteLine($"Vez de '{turno}'");
                 Console.Write("Digite a posição da casa que deseja jogar: ");
                 
                 string jogada = Console.ReadLine();
                 Console.WriteLine(' ');
 
-                for (int i = 0;i < matriz.GetLength(0);i++)
+
+                while (!casasJogadas.Contains(jogada))
                 {
-                    for(int j = 0;j < matriz.GetLength(1);j++)
+                    Console.Write("Jogada INVÁLIDA! Digite a posição da casa novamente: ");
+                    jogada = Console.ReadLine();
+                    Console.WriteLine(' ');
+                }
+
+
+                for (int i = 0; i < matriz.GetLength(0); i++)
                     {
-                        if (matriz[i, j] == jogada) {
-                            matriz[i, j] = turno;
+                        for (int j = 0; j < matriz.GetLength(1); j++)
+                        {
+                            if (matriz[i, j] == jogada && casasJogadas.Contains(jogada))
+                            {
+                                matriz[i, j] = turno;
+                                casasJogadas.Remove(jogada);
+                            }
                         }
                     }
-                }
+
 
                 for (int i = 0; i<matriz.GetLength(0);i++)
                 {
@@ -57,18 +73,42 @@
                     Console.WriteLine() ;
                 }
 
-                if (turno == "X") {
-                    turno = "O";
+
+                //Condições de vitória
+                if (matriz[0, 0] == matriz[1, 1] && matriz[1, 1] == matriz[2, 2] || matriz[0, 2] == matriz[1, 1] && matriz[1, 1] == matriz[2, 0])
+                {
+                    Console.WriteLine($"\nPARABÉNS!! {turno} VENCEU!");
+                    break;
+                }
+                else if (matriz[0, 0] == matriz[1, 0] && matriz[1, 0] == matriz[2, 0] || matriz[0, 1] == matriz[1, 1] && matriz[1, 1] == matriz[2, 1] || matriz[0, 2] == matriz[1, 2] && matriz[1, 2] == matriz[2, 2])
+                {
+                    Console.WriteLine($"\nPARABÉNS!! {turno} VENCEU!");
+                    break;
+                }
+                else if (matriz[0, 0] == matriz[0, 1] && matriz[0, 1] == matriz[0, 2] || matriz[1, 0] == matriz[1, 1] && matriz[1, 1] == matriz[1, 2] || matriz[2, 0] == matriz[2, 1] && matriz[2, 1] == matriz[2, 2])
+                {
+                    Console.WriteLine($"\nPARABÉNS!! {turno} VENCEU!");
+                    break;
                 }
                 else { 
-                    turno = "X";
                 }
 
+
+                //Troca de turno
+                if (turno == "X")
+                {
+                    turno = "O";
+                }
+                else
+                {
+                    turno = "X";
+                }
 
                 tentativas++;
 
             }
 
+            Console.WriteLine("\nFIM DO JOGO!");
             
         }
     }
