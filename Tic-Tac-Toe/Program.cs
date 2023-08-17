@@ -8,10 +8,10 @@ namespace Tic_Tac_Toe
             Console.WriteLine("    _                                 _                            _   _             \r\n   (_)   ___     __ _    ___       __| |   __ _    __   __   ___  | | | |__     __ _ \r\n   | |  / _ \\   / _` |  / _ \\     / _` |  / _` |   \\ \\ / /  / _ \\ | | | '_ \\   / _` |\r\n   | | | (_) | | (_| | | (_) |   | (_| | | (_| |    \\ V /  |  __/ | | | | | | | (_| |\r\n  _/ |  \\___/   \\__, |  \\___/     \\__,_|  \\__,_|     \\_/    \\___| |_| |_| |_|  \\__,_|\r\n |__/           |___/                                                                ");
             Console.WriteLine("");
             Console.WriteLine("Objetivo: Para jogar, digite qual posição do tabuleiro deseja jogar a peça.\n");
-            Console.WriteLine("Clique em ENTER para INICIAR!");
-            Console.WriteLine("");
+            Console.Write("Clique em ENTER para INICIAR!");
+            Console.ReadLine();
 
-            string[,] matriz = new string[3,3];
+            string[,] matriz = new string[3, 3];
 
             int posicao = 1;
             int tentativas = 0;
@@ -20,26 +20,18 @@ namespace Tic_Tac_Toe
             List<string> casasJogadas = new List<string>();
 
             //Populando a tabela
-            for (int i = 0; i < matriz.GetLength(0); i++) {
-                for (int j = 0; j < matriz.GetLength(1); j++) {
-                    matriz[i, j] = posicao.ToString();
-                    casasJogadas.Add(posicao.ToString());
-                    Console.Write($" [ {matriz[i, j]} ]" );
-                    posicao++;
-                }
-                Console.WriteLine();
-            }
-
-            Console.ReadLine();
+            posicao = Tic_Tac_Toe.PopularMatriz(matriz, posicao, casasJogadas);
+            //Mostrando a tabela
+            Tic_Tac_Toe.MostrarMatriz(matriz);
 
 
             //Substituindo os numeros por peças
-            while (tentativas < 9) {
-
-                Console.WriteLine() ;
+            while (tentativas < 9)
+            {
+                Console.WriteLine();
                 Console.WriteLine($"Vez de '{turno}'");
                 Console.Write("Digite a posição da casa que deseja jogar: ");
-                
+
                 string jogada = Console.ReadLine();
                 Console.WriteLine(' ');
 
@@ -51,46 +43,29 @@ namespace Tic_Tac_Toe
                     Console.WriteLine(' ');
                 }
 
+                Tic_Tac_Toe.SubstituirCasa(matriz, turno, casasJogadas, jogada);
 
-                for (int i = 0; i < matriz.GetLength(0); i++)
-                    {
-                        for (int j = 0; j < matriz.GetLength(1); j++)
-                        {
-                            if (matriz[i, j] == jogada && casasJogadas.Contains(jogada))
-                            {
-                                matriz[i, j] = turno;
-                                casasJogadas.Remove(jogada);
-                            }
-                        }
-                    }
-
-
-                for (int i = 0; i<matriz.GetLength(0);i++)
-                {
-                    for (int j = 0; j < matriz.GetLength(1); j++) {
-                        Console.Write($" [ {matriz[i, j]} ]");
-                    }
-                    Console.WriteLine() ;
-                }
+                Tic_Tac_Toe.MostrarMatriz(matriz);
 
 
                 //Condições de vitória
                 if (matriz[0, 0] == matriz[1, 1] && matriz[1, 1] == matriz[2, 2] || matriz[0, 2] == matriz[1, 1] && matriz[1, 1] == matriz[2, 0])
                 {
-                    Console.WriteLine($"\nPARABÉNS!! {turno} VENCEU!");
+                    Tic_Tac_Toe.MostrarGanhador(turno);
                     break;
                 }
                 else if (matriz[0, 0] == matriz[1, 0] && matriz[1, 0] == matriz[2, 0] || matriz[0, 1] == matriz[1, 1] && matriz[1, 1] == matriz[2, 1] || matriz[0, 2] == matriz[1, 2] && matriz[1, 2] == matriz[2, 2])
                 {
-                    Console.WriteLine($"\nPARABÉNS!! {turno} VENCEU!");
+                    Tic_Tac_Toe.MostrarGanhador(turno);
                     break;
                 }
                 else if (matriz[0, 0] == matriz[0, 1] && matriz[0, 1] == matriz[0, 2] || matriz[1, 0] == matriz[1, 1] && matriz[1, 1] == matriz[1, 2] || matriz[2, 0] == matriz[2, 1] && matriz[2, 1] == matriz[2, 2])
                 {
-                    Console.WriteLine($"\nPARABÉNS!! {turno} VENCEU!");
+                    Tic_Tac_Toe.MostrarGanhador(turno);
                     break;
                 }
-                else { 
+                else
+                {
                 }
 
 
@@ -109,7 +84,7 @@ namespace Tic_Tac_Toe
             }
 
             Console.WriteLine("\nFIM DO JOGO!");
-            
+
         }
     }
 }
